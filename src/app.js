@@ -99,5 +99,5 @@ app.get('/*', (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log('This is port ' + prot)
+    console.log('This is port ' + port)
 })
