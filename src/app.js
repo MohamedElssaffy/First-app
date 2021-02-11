@@ -5,6 +5,7 @@ const geocode = require('./utilites/geocode')
 const forecast = require('./utilites/forecast')
 
 const app = express()
+const port = process.env.PORT || 3000
 
 // define path for express config
 const puplicDirctor = path.join(__dirname, '../puplic')
@@ -97,6 +98,6 @@ app.get('/*', (req, res) => {
     })
 })
 
-app.listen(3000, () => {
-    console.log('This is port 3000')
+app.listen(port, () => {
+    console.log('This is port ' + prot)
 })
