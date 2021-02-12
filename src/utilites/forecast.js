@@ -10,7 +10,7 @@ const forecast = (latitude, longitude, callback) => {
         } else if (body.error) {
             callback('Unable to this location, you can try onther one', undefined)
         } else {
-            callback(undefined, 'It is currently ' + current.temperature + ' degress out. It feels like ' + current.feelslike + ' degress out')
+            callback(undefined, current.weather_descriptions + ' It is currently ' + current.temperature + ' degress out. It feels like ' + current.feelslike + ' degress out. Its humidity is ' + current.humidity)
         }
     })
 
