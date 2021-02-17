@@ -44,6 +44,7 @@ app.get('/help', (req, res) => {
 
 app.get('/weather', (req, res) => {
     const address = req.query.address
+    const unit = req.query.unit
     if (!address) {
         return res.send({
             error: 'You must add address location'
@@ -55,7 +56,7 @@ app.get('/weather', (req, res) => {
             return res.send({ error })
         }
 
-        forecast.forecast(latitude, longitude, (error, forecastData) => {
+        forecast.forecast(unit, latitude, longitude, (error, forecastData) => {
             if (error) {
                 return res.send({ error })
             }
