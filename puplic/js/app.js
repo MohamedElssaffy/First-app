@@ -17,9 +17,6 @@ weatherForm.addEventListener('submit', (e) => {
             unit[0] = chooseUnit[i].value
         }
     }
-    if (!unit[0]) {
-        unit[0] = 'm'
-    }
     messageOne.textContent = 'Loadding...'
     messageTwo.textContent = ''
     fetch('/weather?address=' + location + '&unit=' + unit[0]).then((response) => {
