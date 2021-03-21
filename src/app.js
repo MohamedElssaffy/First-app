@@ -1,8 +1,8 @@
 const path = require('path')
 const express = require('express')
 const hbs = require('hbs')
-const geocode = require('./utilites/geocode')
-const forecast = require('./utilites/forecast')
+const { geocode } = require('./utilites/geocode')
+const { forecast } = require('./utilites/forecast')
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -50,25 +50,48 @@ app.get('/weather', (req, res) => {
             error: 'You must add address location'
         })
     }
-    geocode.geocode(address, (error, {latitude, longitude, location} = {}) => {
 
-        if (error) {
-            return res.send({ error })
-        }
+    if (address.includes('|')) {
+        const coords = address.split('|')
+        const latitude = coords[0]
+        const longitude = coords[1]
 
-        forecast.forecast(unit, latitude, longitude, (error, forecastData) => {
+        forecast(unit, latitude, longitude, (error, {forecastData, locationCountry, locationRegion} = {}) => {
             if (error) {
                 return res.send({ error })
             }
             res.send({
-                location,
                 forecast: forecastData,
-                address
+                locationCountry,
+                locationRegion
             })
-            
+        })
+    } else {
+
+        geocode(address, (error, {latitude, longitude} = {}) => {
+
+            if (error) {
+                return res.send({ error })
+            }
+    
+            forecast(unit, latitude, longitude, (error, {forecastData, locationCountry, locationRegion}) => {
+                if (error) {
+                    return res.send({ error })
+                }
+                res.send({
+                    locationCountry,
+                    locationRegion,
+                    forecast: forecastData,
+                    address
+                })
+                
+            })
+    
         })
 
-    })
+    }
+
+    
 })
 
 app.get('/products', (req, res) => {
